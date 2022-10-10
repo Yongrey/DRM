@@ -4,8 +4,30 @@ from .serializers import DirectorListSerializer, MovieListSerializer, ReviewList
 from .models import Movie, Director, Review
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.viewsets import ModelViewSet
 
 
+class MovieModelViewSet(ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieListSerializer
+    pagination_class = PageNumberPagination
+    lookup_field = 'id'
+
+
+class DirectorModelViewSet(ModelViewSet):
+    queryset = Director.objects.all()
+    serializer_class = DirectorListSerializer
+    pagination_class = PageNumberPagination
+    lookup_field = 'id'
+
+
+class ReviewModelViewSet(ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewListSerializer
+    pagination_class = PageNumberPagination
+    lookup_field = 'id'
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def movie_view(request):
